@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const Post = require('./models/post');
 
 const app = express();
-mongoose.connect("mongodb+srv://apple:apple@cluster0.xl6iy.mongodb.net/MEAN?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://apple:apple@cluster0.xl6iy.mongodb.net/node-angular?retryWrites=true&w=majority")
   .then(() => {
     console.log('Connected to database');
   })
@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 
 app.post("/api/posts", (req, res, next) => {
   const post = new Post({ title: req.body.title, content: req.body.content });
-  console.log(post);
+  post.save();
   res.status(201).json({
     message: 'Posts added successfully'
   });
