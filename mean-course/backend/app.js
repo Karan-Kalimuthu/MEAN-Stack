@@ -21,7 +21,7 @@ app.post("/api/posts", (req, res, next) => {
   });
 });
 
-app.use("/api/posts", (req, res, next) => {
+app.get("/api/posts", (req, res, next) => {
   const posts = [
     { id: 'fsjkbfjksbf', title: 'First Server Post', content: 'This is coming from the server' },
     { id: 'dkfndsngkjs', title: 'Second Server Post', content: 'This is coming from the server!' },
