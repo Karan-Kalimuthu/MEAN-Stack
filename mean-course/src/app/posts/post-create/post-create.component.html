@@ -7,7 +7,7 @@
         name="title"
         placeholder="Post Title"
         required
-        [ngModel]="post.title"
+        [ngModel]="post?.title"
         minlength="3"
         #title="ngModel"
       />
@@ -19,7 +19,7 @@
         rows="6"
         name="content"
         placeholder="Post Content"
-        [ngModel]="post.content"
+        [ngModel]="post?.content"
         required
         minlength="3"
         #content="ngModel"
