@@ -1,18 +1,16 @@
 <mat-card>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <form (submit)="onSavePost(postForm)" #postForm="ngForm" *ngIf="!isLoading">
+  <form [formGroup]="form" (submit)="onSavePost()" *ngIf="!isLoading">
     <mat-form-field>
       <input
         matInput
         type="text"
-        name="title"
+        formControlName="title"
         placeholder="Post Title"
-        required
-        [ngModel]="post?.title"
-        minlength="3"
-        #title="ngModel"
       />
-      <mat-error *ngIf="title.invalid">Please entet a post title.</mat-error>
+      <mat-error *ngIf="form.get('title').invalid"
+        >Please entet a post title.</mat-error
+      >
     </mat-form-field>
     <div>
       <button mat-stroked-button type="button" (click)="filePicker.click()">
@@ -24,14 +22,10 @@
       <textarea
         matInput
         rows="6"
-        name="content"
+        formControlName="content"
         placeholder="Post Content"
-        [ngModel]="post?.content"
-        required
-        minlength="3"
-        #content="ngModel"
       ></textarea>
-      <mat-error *ngIf="content.invalid"
+      <mat-error *ngIf="form.get('content').invalid"
         >Please entet a post content.</mat-error
       >
     </mat-form-field>
