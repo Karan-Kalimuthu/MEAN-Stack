@@ -17,13 +17,11 @@ export class SignupComponent implements OnInit {
   }
 
   onSignup(form: NgForm) {
-    console.log("test1");
     if (form.invalid) {
       console.log("test if");
       return;
     }
     this.authService.createUser(form.value.email, form.value.password);
-    console.log("test2");
 
   }
 }
