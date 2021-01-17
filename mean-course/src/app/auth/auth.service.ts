@@ -48,4 +48,11 @@ export class AuthService {
       });
   }
 
+  logout() {
+    console.log("test from logout comp");
+    this.token = null;
+    this.isAuthenticated = false;
+    this.authStatusListener.next(false);
+  }
+
 }
