@@ -56,11 +56,13 @@ router.put("/:id", checkAuth, multer({ storage: storage }).single("image"), (req
     content: req.body.content,
     imagePath: imagePath
   });
-  console.log(post);
-  Post.updateOne({ _id: req.params.id }, post)
+  Post.updateOne({ _id: req.params.id, creator: req.userData.userId }, post)
     .then(result => {
-      console.log(result);
-      res.status(200).json({ message: 'Updated Successfully!' })
+      if (result.nModified > 0) {
+        res.status(200).json({ message: 'Updated Successfully!' });
+      } else {
+        res.status(401).json({ message: 'Not Authorized to Update!' });
+      }
     })
 });
 
@@ -99,10 +101,13 @@ router.get("/:id", (req, res, next) => {
 });
 
 router.delete("/:id", checkAuth, (req, res, next) => {
-  Post.deleteOne({ _id: req.params.id })
-    .then((response) => {
-      console.log(response);
-      res.status(200).json({ message: 'Post deleted!' });
+  Post.deleteOne({ _id: req.params.id, creator: req.userData.userId })
+    .then((result) => {
+      if (result.n > 0) {
+        res.status(200).json({ message: 'Deletion Succesful!' });
+      } else {
+        res.status(401).json({ message: 'Not Authorized to delete!' });
+      }
     })
 });
 
