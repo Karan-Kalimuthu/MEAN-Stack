@@ -40,7 +40,7 @@ export class AuthService {
     const authData: AuthData = { email: email, password: password };
     return this.http.post(BACKEND_URL + "signup", authData)
       .subscribe(() => {
-        this.router.navigate(['/login']);
+        this.router.navigate(['/auth/login']);
       }, error => {
         this.authStatusListener.next(false);
       });
@@ -53,9 +53,8 @@ export class AuthService {
   };
 
   login(email: string, password: string) {
-    console.log("test1 service login");
     const authData: AuthData = { email: email, password: password };
-    this.http.post<{ token: string, expiresIn: number, userId: string }>(BACKEND_URL + "/login", authData)
+    this.http.post<{ token: string, expiresIn: number, userId: string }>(BACKEND_URL + "login", authData)
       .subscribe(response => {
         const token = response.token;
         this.token = token;
@@ -68,7 +67,6 @@ export class AuthService {
           const now = new Date();
           const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
           this.saveAuthData(token, expirationDate, this.userId);
-          console.log(expirationDate);
           this.router.navigate(['/']);
         }
       }, error => {
@@ -93,7 +91,6 @@ export class AuthService {
   }
 
   logout() {
-    console.log("test from logout comp");
     this.token = null;
     this.isAuthenticated = false;
     this.authStatusListener.next(false);
@@ -111,7 +108,6 @@ export class AuthService {
   }
 
   private setAuthTimer(duration: number) {
-    console.log("Setting timer :" + duration);
     this.tokenTimer = setTimeout(() => {
       this.logout();
     }, duration * 1000);
