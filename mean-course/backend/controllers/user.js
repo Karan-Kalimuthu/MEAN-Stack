@@ -10,19 +10,40 @@ exports.createUser = (req, res, next) => {
         email: req.body.email,
         password: hash
       });
-      user.save()
-        .then(result => {
-          console.log(result);
-          res.status(201).json({
-            message: 'User Created!',
-            result: result
-          })
+      User.findOne({ email: req.body.email })
+        .then(foundUser => {
+          if (!foundUser) {
+            user.save()
+              .then(result => {
+                res.status(201).json({
+                  message: 'User Created!',
+                  result: result
+                })
+              })
+              .catch(err => {
+                res.status(500).json({
+                  message: "Invalid authentication credentials"
+                })
+              })
+          } else {
+            res.status(409).json({
+              message: 'Email already exists!',
+            })
+          }
         })
-        .catch(err => {
-          res.status(500).json({
-            message: "Invalid authentication credentials"
-          })
-        })
+      // user.save()
+      //   .then(result => {
+      //     console.log(result);
+      //     res.status(201).json({
+      //       message: 'User Created!',
+      //       result: result
+      //     })
+      //   })
+      //   .catch(err => {
+      //     res.status(500).json({
+      //       message: "Invalid authentication credentials"
+      //     })
+      //   })
     });
 };
 
